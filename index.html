@@ -1,110 +1,101 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <title>Album Ảnh Văn Hóa Dân Gian – THPT Võ Chí Công</title>
-  <meta name="description" content="Trang trình chiếu album ảnh văn hóa dân gian – Trường THPT Võ Chí Công." />
+  <title>Album Ảnh Văn Hóa Dân Gian | THPT Võ Chí Công</title>
+  <meta name="description" content="Kho ảnh văn hóa dân gian của THPT Võ Chí Công." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
-
 <body>
+  <div class="bg-grain" aria-hidden="true"></div>
+
   <header class="topbar">
     <div class="topbar__inner">
-      <div class="brand">
-        <div class="brand__mark">
+      <a class="brand" href="#" aria-label="Trang chủ album">
+        <span class="brand__mark">
           <img class="brand__logo" src="logo.png" alt="Logo Trường THPT Võ Chí Công" />
-
-        </div>
-        <div class="brand__text">
-          <div class="brand__title">Album Ảnh Văn Hóa Dân Gian</div>
-          <div class="brand__subtitle">Trường THPT Võ Chí Công</div>
-        </div>
-      </div>
+        </span>
+        <span class="brand__text">
+          <span class="brand__title">Album Văn Hóa Dân Gian</span>
+          <span class="brand__subtitle">THPT Võ Chí Công</span>
+        </span>
+      </a>
 
       <nav class="actions" aria-label="Điều khiển">
-        <button id="btnPlay" class="btn btn--primary" type="button" title="Mở chế độ trình chiếu">
+        <button id="btnPlay" class="btn btn--primary" type="button" title="Mở trình chiếu">
           ▶ Trình chiếu
         </button>
-        <button id="btnShuffle" class="btn" type="button" title="Xáo trộn thứ tự ảnh">
-          ⤮ Xáo trộn
+        <button id="btnShuffle" class="btn" type="button" title="Xáo trộn ảnh">
+          ⇄ Xáo trộn
         </button>
-        <a class="btn" href="#gallery" title="Đi tới lưới ảnh">
-          ⤓ Xem ảnh
+        <a class="btn" href="#gallery" title="Đi đến thư viện ảnh">
+          Thư viện
         </a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main class="page">
     <section class="hero" aria-labelledby="heroTitle">
       <div class="hero__inner">
-        <div class="hero__copy">
+        <article class="hero__paper">
           <h1 id="heroTitle">Sắc màu văn hóa dân gian</h1>
-          <p class="muted">
+          <p class="hero__lead">
             Văn hóa không bao giờ cũ. Xem để thấy, cảm để yêu những giá trị vĩnh cửu ngay tại sân trường Võ Chí Công.
             Phần “Ảnh nổi bật” sẽ ưu tiên những ảnh có <b>độ phân giải cao</b> (thường rõ nét hơn),
             và bạn có thể <b>gắn sao</b> để “đẩy lên top”.
           </p>
 
-          <div class="hero__tips">
-            <div class="tip">
-              <div class="tip__icon" aria-hidden="true">★</div>
-              <div class="tip__text">
-                Bấm <b>ngôi sao</b> trên từng ảnh để chọn ảnh đẹp nhất lên “Ảnh nổi bật”.
-              </div>
-            </div>
-            <div class="tip">
-              <div class="tip__icon" aria-hidden="true">⌨</div>
-              <div class="tip__text">
-                Trong chế độ trình chiếu: <b>←/→</b> để chuyển ảnh, <b>Space</b> để phát/tạm dừng, <b>Esc</b> để thoát.
-              </div>
-            </div>
-          </div>
-
           <div class="status" id="statusBox" role="status" aria-live="polite">
             <span class="dot" aria-hidden="true"></span>
-            <span id="statusText">Đang chuẩn bị tải dữ liệu…</span>
+            <span id="statusText">Đang chuẩn bị tải dữ liệu...</span>
           </div>
-        </div>
+        </article>
 
-        <div class="hero__featured" aria-label="Ảnh nổi bật">
-          <div class="featured">
-            <div class="featured__head">
-              <h2 class="featured__title">Ảnh nổi bật</h2>
-              <div class="featured__meta">
-                <span id="featuredCount" class="pill">0 ảnh</span>
-                <button id="btnRefreshFeatured" class="btn btn--small" type="button" title="Tính lại ảnh nổi bật">
-                  ↻ Làm mới
-                </button>
-              </div>
+        <aside class="featured" aria-label="Ảnh nổi bật">
+          <div class="featured__head">
+            <h2 class="featured__title">Ảnh nổi bật</h2>
+            <div class="featured__meta">
+              <span id="featuredCount" class="pill">0 ảnh</span>
+              <button id="btnRefreshFeatured" class="btn btn--small" type="button" title="Làm mới ảnh nổi bật">
+                Làm mới
+              </button>
             </div>
-
-            <div class="featured__stage" id="featuredStage">
-              <div class="skeleton">
-                <div class="skeleton__img"></div>
-                <div class="skeleton__line"></div>
-                <div class="skeleton__line"></div>
-              </div>
-            </div>
-
-            <div class="featured__strip" id="featuredStrip" aria-label="Danh sách ảnh nổi bật"></div>
           </div>
-        </div>
+
+          <div class="featured__stage" id="featuredStage">
+            <div class="skeleton">
+              <div class="skeleton__img"></div>
+              <div class="skeleton__line"></div>
+              <div class="skeleton__line"></div>
+            </div>
+          </div>
+
+          <div class="featured__strip" id="featuredStrip" aria-label="Danh sách ảnh nổi bật"></div>
+        </aside>
       </div>
     </section>
 
-    <section class="section" id="gallery" aria-labelledby="galleryTitle">
+    <section class="section section--gallery" id="gallery" aria-labelledby="galleryTitle">
       <div class="section__inner">
         <div class="section__head">
-          <h2 id="galleryTitle">Toàn bộ album</h2>
+          <div>
+            <h2 id="galleryTitle">Thư viện ảnh</h2>
+            <p class="muted section__hint">Nhấn vào ảnh để mở lightbox. Nhấn sao để thêm vào danh sách yêu thích.</p>
+          </div>
+
           <div class="section__tools">
+            <label class="search" for="searchInput">
+              <span>Tìm</span>
+              <input id="searchInput" type="search" placeholder="Ví dụ: múa lân, trò chơi, lớp 12..." autocomplete="off" />
+            </label>
             <div class="counts muted">
-              <span id="totalCount">0</span> ảnh • <span id="favCount">0</span> đã gắn sao
+              <span id="totalCount">0</span> ảnh | <span id="favCount">0</span> đã gắn sao
             </div>
           </div>
         </div>
@@ -118,11 +109,11 @@
     </section>
 
     <section class="section section--note" aria-labelledby="noteTitle">
-      <div class="section__inner">
+      <div class="section__inner notePanel">
         <h2 id="noteTitle">Ghi chú</h2>
-        <ul>
-          <li>Ảnh được lấy từ Google Drive, có thể mất vài giây để tải.</li>
-          <li>Trang web này là một dự án phi lợi nhuận, được tạo ra để lưu giữ và chia sẻ những khoảnh khắc đẹp của văn hóa dân gian tại trường chúng ta.</li>
+        <ul class="note">
+          <li>Ảnh được lấy từ Google Drive nên có thể mất vài giây để tải.</li>
+          <li>Dự án phi lợi nhuận nhằm lưu giữ khoảnh khắc văn hóa dân gian tại trường.</li>
         </ul>
       </div>
     </section>
@@ -130,28 +121,27 @@
 
   <footer class="footer">
     <div class="footer__inner">
-      <div>© <span id="year"></span> THPT Võ Chí Công • Album ảnh văn hóa dân gian</div>
+      <div>© <span id="year"></span> THPT Võ Chí Công | Album ảnh văn hóa dân gian</div>
       <div class="muted">Create by: Lê Đình Phan Hiếu 12/6</div>
     </div>
   </footer>
 
-  <!-- Lightbox / Slideshow -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <div class="lightbox__backdrop" data-close="1"></div>
 
     <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Trình xem ảnh">
       <div class="lightbox__top">
         <div class="lightbox__title">
-          <div id="lbName" class="lbName">—</div>
-          <div id="lbMeta" class="lbMeta muted">—</div>
+          <div id="lbName" class="lbName">-</div>
+          <div id="lbMeta" class="lbMeta muted">-</div>
         </div>
 
         <div class="lightbox__actions">
-          <button id="lbFav" class="iconbtn" type="button" title="Gắn sao / bỏ sao">★</button>
-          <a id="lbOpenDrive" class="iconbtn" target="_blank" rel="noreferrer" title="Mở ảnh trên Google Drive">↗</a>
-          <a id="lbDownload" class="iconbtn" target="_blank" rel="noreferrer" title="Tải ảnh (Drive)">⤓</a>
-          <button id="lbPlay" class="iconbtn" type="button" title="Phát / tạm dừng (Space)">▶</button>
-          <button class="iconbtn" type="button" data-close="1" title="Đóng (Esc)">✕</button>
+          <button id="lbFav" class="iconbtn" type="button" title="Gắn sao hoặc bỏ sao">★</button>
+          <a id="lbOpenDrive" class="iconbtn" target="_blank" rel="noreferrer" title="Mở trên Google Drive">↗</a>
+          <a id="lbDownload" class="iconbtn" target="_blank" rel="noreferrer" title="Tải ảnh">↓</a>
+          <button id="lbPlay" class="iconbtn" type="button" title="Phát hoặc tạm dừng">▶</button>
+          <button class="iconbtn" type="button" data-close="1" title="Đóng">×</button>
         </div>
       </div>
 
@@ -162,7 +152,7 @@
       </div>
 
       <div class="lightbox__bottom">
-        <div class="muted">Phím tắt: ←/→ • Space • Esc</div>
+        <div class="muted">Phím tắt: ←/→ | Space | Esc</div>
         <div id="lbIndex" class="pill">0/0</div>
       </div>
     </div>

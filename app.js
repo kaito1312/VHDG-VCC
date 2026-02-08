@@ -1,10 +1,10 @@
-const CONFIG = {
+﻿const CONFIG = {
   folderId: "1fqGy1NvJqnzl0JOU3B6LmChKrrlW_SM3",
-  gasEndpoint: "https://script.google.com/macros/s/AKfycbxPFDVWRucQd7jhwBbR_irX1TsndO0HH6X2n_-TZ3pECZdB4tSySEehQz3taeuUf1E/exec", 
+  gasEndpoint: "https://script.google.com/macros/s/AKfycbxPFDVWRucQd7jhwBbR_irX1TsndO0HH6X2n_-TZ3pECZdB4tSySEehQz3taeuUf1E/exec",
   topCount: 8,
   gridPageSize: 48,
-  scanForFeatured: 30,     
-  measureConcurrency: 6,   
+  scanForFeatured: 30,
+  measureConcurrency: 6,
   autoplayMs: 4000
 };
 
@@ -131,7 +131,7 @@ function loadFromGAS(){
     document.head.appendChild(script);
 
     function cleanup(){
-      try{ delete window[cbName]; }catch(_){}
+      try{ delete window[cbName]; }catch(_){ }
       script.remove();
     }
   });
@@ -361,8 +361,9 @@ async function computeFeatured(){
   const remaining = state.all.filter(x => !state.favorites.has(x.id));
   const candidates = remaining.slice(0, Math.min(CONFIG.scanForFeatured, remaining.length));
 
-  const tasks = candidates.map(c => () => measureImageArea(c));
-  const measured = await withLimit(CONFIG.measureConcurrency, tasks);
+  const favTasks = favArr.map(f => () => measureImageArea(f));
+  const candTasks = candidates.map(c => () => measureImageArea(c));
+  const measured = await withLimit(CONFIG.measureConcurrency, favTasks.concat(candTasks));
 
   // apply measurement back
   const areaById = new Map(measured.map(m => [m.id, m]));
@@ -372,12 +373,24 @@ async function computeFeatured(){
       c.w = m.w; c.h = m.h; c.area = m.area;
     }
   }
+  for(const f of favArr){
+    const m = areaById.get(f.id);
+    if(m){
+      f.w = m.w; f.h = m.h; f.area = m.area;
+    }
+  }
 
   // Sắp theo area giảm dần (fallback size)
   candidates.sort((a,b) => (b.area || 0) - (a.area || 0) || (b.size || 0) - (a.size || 0));
 
+  const isPortrait = (it) => {
+    if(!it || !it.w || !it.h) return false;
+    return (it.h / it.w) > 1.08;
+  };
+
   const featured = favArr
     .concat(candidates)
+    .filter(it => !isPortrait(it))
     .slice(0, CONFIG.topCount);
 
   return featured;
@@ -568,7 +581,7 @@ function nextInLightbox(step){
 function startAutoplay(){
   if(state.playing) return;
   state.playing = true;
-  UI.lbPlay.textContent = "❚❚";
+  UI.lbPlay.textContent = "⏸";
   UI.lbPlay.title = "Tạm dừng (Space)";
   state.timer = window.setInterval(() => nextInLightbox(1), CONFIG.autoplayMs);
 }
@@ -628,12 +641,12 @@ async function main(){
   saveFavs(); // update UI count
 
   UI.btnLoadMore.addEventListener("click", renderMore);
-if (UI.searchInput) {
-  UI.searchInput.addEventListener("input", () => {
-    window.clearTimeout(state.searchTimer);
-    state.searchTimer = window.setTimeout(applySearch, 120);
-  });
-}
+  if (UI.searchInput) {
+    UI.searchInput.addEventListener("input", () => {
+      window.clearTimeout(state.searchTimer);
+      state.searchTimer = window.setTimeout(applySearch, 120);
+    });
+  }
 
   UI.btnRefreshFeatured.addEventListener("click", refreshFeatured);
   UI.btnShuffle.addEventListener("click", shuffleAll);
